@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Product } from '../types/product';
 
 @Injectable({
@@ -21,6 +21,15 @@ export class ProductsService {
     return this.http.get<Product>(url);
   }
 
+  getCategories(): Observable<string[]> {
+    return this.getAllProducts().pipe(
+      map((products) => {
+        const categories = products.map((product) => product.category);
+        return [...new Set(categories)].filter(Boolean).sort();
+      })
+    );
+  }
+
   addProduct(product: Omit<Product, 'id'>): Observable<Product> {
     return this.http.post<Product>(this.API_URL, product);
   }
@@ -39,7 +48,8 @@ export class ProductsService {
 
   filterProducts(name?: string, category?: string): Observable<Product[]> {
     let params = new HttpParams();
-    if (name) {
+
+    if (name && name.trim()) {
       params = params.set('name_like', name);
     }
 
