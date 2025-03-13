@@ -1,0 +1,112 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Ultra HD Smart TV",
+      "description": "55-inch 4K Ultra HD Smart TV with advanced HDR technology and built-in streaming apps",
+      "price": 799.99,
+      "category": "Electronics",
+      "featured": true,
+      "created_at": "2025-03-12T12:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Wireless Noise-Cancelling Headphones",
+      "description": "Premium over-ear headphones with active noise cancellation and 30-hour battery life",
+      "price": 249.99,
+      "category": "Electronics",
+      "featured": false,
+      "created_at": "2025-03-10T09:15:00.000Z"
+    },
+    {
+      "id": 3,
+      "name": "Professional Chef Knife Set",
+      "description": "8-piece stainless steel kitchen knife set with wooden block and sharpener",
+      "price": 129.95,
+      "category": "Home & Kitchen",
+      "featured": true,
+      "created_at": "2025-02-28T14:30:00.000Z"
+    },
+    {
+      "id": 4,
+      "name": "Ergonomic Office Chair",
+      "description": "Adjustable office chair with lumbar support and breathable mesh back",
+      "price": 189.99,
+      "category": "Furniture",
+      "featured": false,
+      "created_at": "2025-03-05T11:45:00.000Z"
+    },
+    {
+      "id": 5,
+      "name": "Smartphone Gimbal Stabilizer",
+      "description": "3-axis smartphone gimbal for smooth, professional video recording",
+      "price": 89.99,
+      "category": "Electronics",
+      "featured": true,
+      "created_at": "2025-03-08T16:20:00.000Z"
+    },
+    {
+      "id": 6,
+      "name": "Waterproof Hiking Boots",
+      "description": "Durable waterproof hiking boots with reinforced toe and ankle support",
+      "price": 149.95,
+      "category": "Sports & Outdoors",
+      "featured": false,
+      "created_at": "2025-02-15T10:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "name": "Smart Home Security Camera",
+      "description": "Wireless indoor/outdoor security camera with night vision and motion detection",
+      "price": 79.99,
+      "category": "Electronics",
+      "featured": false,
+      "created_at": "2025-03-01T08:45:00.000Z"
+    },
+    {
+      "id": 8,
+      "name": "Cast Iron Dutch Oven",
+      "description": "6-quart enameled cast iron dutch oven for slow cooking, roasting, and baking",
+      "price": 89.95,
+      "category": "Home & Kitchen",
+      "featured": true,
+      "created_at": "2025-02-22T13:15:00.000Z"
+    },
+    {
+      "id": 9,
+      "name": "Bluetooth Portable Speaker",
+      "description": "Waterproof bluetooth speaker with 24-hour battery life and built-in microphone",
+      "price": 59.99,
+      "category": "Electronics",
+      "featured": false,
+      "created_at": "2025-03-14T15:30:00.000Z"
+    },
+    {
+      "id": 10,
+      "name": "Yoga Mat Set",
+      "description": "Premium non-slip yoga mat with carrying strap, blocks, and towel",
+      "price": 45.99,
+      "category": "Sports & Outdoors",
+      "featured": false,
+      "created_at": "2025-02-18T09:30:00.000Z"
+    },
+    {
+      "id": 11,
+      "name": "Smart Fitness Watch",
+      "description": "GPS fitness tracker with heart rate monitoring, sleep tracking, and smartphone notifications",
+      "price": 199.99,
+      "category": "Electronics",
+      "featured": true,
+      "created_at": "2025-03-09T07:45:00.000Z"
+    },
+    {
+      "id": 12,
+      "name": "Artisan Coffee Maker",
+      "description": "Programmable coffee maker with built-in grinder and thermal carafe",
+      "price": 159.95,
+      "category": "Home & Kitchen",
+      "featured": false,
+      "created_at": "2025-03-03T10:20:00.000Z"
+    }
+  ]
+}
