@@ -1,0 +1,13 @@
+<form [formGroup]="form">
+  <p-float-label variant="in">
+    <p-select
+      [options]="categories"
+      formControlName="category"
+      id="in_category"
+      [checkmark]="true"
+      [showClear]="true"
+      class="w-full md:w-56"
+    />
+    <label for="in_category">Select a category...</label>
+  </p-float-label>
+</form>
