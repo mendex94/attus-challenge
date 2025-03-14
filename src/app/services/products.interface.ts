@@ -6,7 +6,6 @@ export interface IProductsService {
   getProductById(id: number): Observable<Product>;
   getCategories(): Observable<string[]>;
   addProduct(product: Omit<Product, 'id'>): Observable<Product>;
-  updateProduct(product: Partial<Product>): Observable<Product>;
-  deleteProduct(id: number): Observable<void>;
+  updateProduct(id: number, product: Partial<Product>): Observable<Product>;
   filterProducts(name?: string, category?: string): Observable<Product[]>;
 }

@@ -83,22 +83,14 @@ describe('ProductsService', () => {
       created_at: '2025-03-12T12:00:00.000Z',
     };
 
-    service.updateProduct(updateProduct).subscribe((product) => {
-      expect(product).toEqual(updateProduct);
-    });
+    service
+      .updateProduct(updateProduct.id, updateProduct)
+      .subscribe((product) => {
+        expect(product).toEqual(updateProduct);
+      });
 
     const req = httpMock.expectOne('http://localhost:3000/products/1');
     expect(req.request.method).toBe('PUT');
     req.flush(updateProduct);
-  });
-
-  it('should delete a product', () => {
-    service.deleteProduct(1).subscribe((response) => {
-      expect(response).toBeNull();
-    });
-
-    const req = httpMock.expectOne('http://localhost:3000/products/1');
-    expect(req.request.method).toBe('DELETE');
-    req.flush(null);
   });
 });
