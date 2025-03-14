@@ -66,7 +66,7 @@ export class ProductUpdateComponent {
 
   mutation = injectMutation(() => ({
     mutationFn: (product: Omit<Product, 'created_at'>) =>
-      lastValueFrom(this.productsService.updatedProduct(product)),
+      lastValueFrom(this.productsService.updateProduct(product)),
     onSuccess: () => {
       this.queryClient.invalidateQueries({ queryKey: ['products'] });
       this.messageService.add({

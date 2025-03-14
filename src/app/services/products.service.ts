@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { Product } from '../types/product';
 import { environment } from '../../environments/environment';
 
@@ -13,38 +13,70 @@ export class ProductsService {
   constructor(private http: HttpClient) {}
 
   getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.API_URL);
+    return this.http.get<Product[]>(this.API_URL).pipe(
+      catchError((error) => {
+        console.error('Error fetching products: ', error);
+        return throwError(() => new Error('Failed to fetch products'));
+      })
+    );
   }
 
   getProductById(id: number): Observable<Product> {
     const url = `${this.API_URL}/${id}`;
 
-    return this.http.get<Product>(url);
-  }
-
-  getCategories(): Observable<string[]> {
-    return this.getAllProducts().pipe(
-      map((products) => {
-        const categories = products.map((product) => product.category);
-        return [...new Set(categories)].filter(Boolean).sort();
+    return this.http.get<Product>(url).pipe(
+      catchError((error) => {
+        console.error('Error fetching product: ', error);
+        return throwError(() => new Error('Failed to fetch product'));
       })
     );
   }
 
-  addProduct(product: Omit<Product, 'id'>): Observable<Product> {
-    return this.http.post<Product>(this.API_URL, product);
+  getCategories(): Observable<string[]> {
+    return this.getAllProducts()
+      .pipe(
+        map((products) => {
+          const categories = products.map((product) => product.category);
+          return [...new Set(categories)].filter(Boolean).sort();
+        })
+      )
+      .pipe(
+        catchError((error) => {
+          console.error('Error fetching categories: ', error);
+          return throwError(() => new Error('Failed to fetch categories'));
+        })
+      );
   }
 
-  updatedProduct(product: Partial<Product>): Observable<Product> {
+  addProduct(product: Omit<Product, 'id'>): Observable<Product> {
+    return this.http.post<Product>(this.API_URL, product).pipe(
+      catchError((error) => {
+        console.error('Error adding product: ', error);
+        return throwError(() => new Error('Failed to adding product'));
+      })
+    );
+  }
+
+  updateProduct(product: Partial<Product>): Observable<Product> {
     const url = `${this.API_URL}/${product.id}`;
 
-    return this.http.put<Product>(url, product);
+    return this.http.put<Product>(url, product).pipe(
+      catchError((error) => {
+        console.error('Error updating product: ', error);
+        return throwError(() => new Error('Failed to updating product'));
+      })
+    );
   }
 
   deleteProduct(id: number): Observable<void> {
     const url = `${this.API_URL}/${id}`;
 
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(url).pipe(
+      catchError((error) => {
+        console.error('Error deleting product: ', error);
+        return throwError(() => new Error('Failed to deleting product'));
+      })
+    );
   }
 
   filterProducts(name?: string, category?: string): Observable<Product[]> {
@@ -58,6 +90,11 @@ export class ProductsService {
       params = params.set('category_like', category);
     }
 
-    return this.http.get<Product[]>(this.API_URL, { params });
+    return this.http.get<Product[]>(this.API_URL, { params }).pipe(
+      catchError((error) => {
+        console.error('Error fetching products: ', error);
+        return throwError(() => new Error('Failed to fetch products'));
+      })
+    );
   }
 }

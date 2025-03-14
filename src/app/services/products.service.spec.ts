@@ -73,7 +73,7 @@ describe('ProductsService', () => {
   });
 
   it('should update an existing product', () => {
-    const updatedProduct: Product = {
+    const updateProduct: Product = {
       id: 1,
       name: 'Updated Product',
       description: 'Updated description',
@@ -83,13 +83,13 @@ describe('ProductsService', () => {
       created_at: '2025-03-12T12:00:00.000Z',
     };
 
-    service.updatedProduct(updatedProduct).subscribe((product) => {
-      expect(product).toEqual(updatedProduct);
+    service.updateProduct(updateProduct).subscribe((product) => {
+      expect(product).toEqual(updateProduct);
     });
 
     const req = httpMock.expectOne('http://localhost:3000/products/1');
     expect(req.request.method).toBe('PUT');
-    req.flush(updatedProduct);
+    req.flush(updateProduct);
   });
 
   it('should delete a product', () => {
