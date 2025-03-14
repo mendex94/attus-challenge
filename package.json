@@ -20,7 +20,7 @@
     "@angular/router": "^19.1.0",
     "@primeng/themes": "^19.0.9",
     "@tailwindcss/postcss": "^4.0.14",
-    "@tanstack/angular-query-experimental": "^5.67.3",
+    "@tanstack/angular-query-experimental": "^5.68.0",
     "json-server": "0.17.4",
     "postcss": "^8.5.3",
     "primeng": "^19.0.9",
