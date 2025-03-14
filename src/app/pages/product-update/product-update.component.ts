@@ -4,16 +4,11 @@ import { ToastModule } from 'primeng/toast';
 import { ProductFormComponent } from '../../components/product-form/product-form.component';
 import { CommonModule } from '@angular/common';
 import { MessageService } from 'primeng/api';
-import { ProductsService } from '../../services/products.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../types/product';
-import {
-  injectMutation,
-  injectQuery,
-  QueryClient,
-} from '@tanstack/angular-query-experimental';
-import { lastValueFrom } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
+import { ProductQueryService } from '../../services/product-query.service';
+import { ProductMutationService } from '../../services/product-mutation.service';
 
 @Component({
   selector: 'app-product-update',
@@ -28,76 +23,62 @@ import { ButtonModule } from 'primeng/button';
   templateUrl: './product-update.component.html',
 })
 export class ProductUpdateComponent {
-  private productsService = inject(ProductsService);
+  private productQueryService = inject(ProductQueryService);
+  private productMutationService = inject(ProductMutationService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private messageService = inject(MessageService);
-  private queryClient = inject(QueryClient);
 
   product = signal<Product | undefined>(undefined);
   categories = signal<string[]>([]);
 
-  readonly productId = this.route.snapshot.paramMap.get('id');
+  readonly productId = Number(this.route.snapshot.paramMap.get('id'));
 
-  readonly productQuery = injectQuery(() => ({
-    queryKey: ['product', this.productId],
-    queryFn: () => {
-      if (!this.productId) throw new Error('Product ID is required');
-      return lastValueFrom(
-        this.productsService.getProductById(+this.productId)
-      );
-    },
-  }));
+  // Initialize queries at component creation time
+  readonly productQuery = this.productQueryService.getProductQuery(
+    +this.productId!
+  );
 
-  readonly categoriesQuery = injectQuery(() => ({
-    queryKey: ['categories'],
-    queryFn: () => lastValueFrom(this.productsService.getCategories()),
-  }));
+  // Initialize categories query here, not in the effect
+  readonly categoriesQuery = this.productQueryService.getCategoriesQuery();
+
+  readonly updateProductMutation =
+    this.productMutationService.updateProductMutation({
+      onSuccess: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Product updated successfully',
+        });
+
+        setTimeout(() => this.navigateBack(), 1500);
+      },
+      onError: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to update product',
+        });
+      },
+    });
 
   constructor() {
     effect(() => {
+      if (!this.productId) throw new Error('Product ID is required');
       this.product.set(this.productQuery.data());
     });
 
+    // Use the already initialized categoriesQuery
     effect(() => {
       this.categories.set(this.categoriesQuery.data() || []);
     });
   }
 
-  mutation = injectMutation(() => ({
-    mutationFn: (product: Omit<Product, 'created_at'>) =>
-      lastValueFrom(this.productsService.updateProduct(product)),
-    onSuccess: () => {
-      this.queryClient.invalidateQueries({ queryKey: ['products'] });
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Success',
-        detail: 'Product updated successfully',
-      });
-
-      setTimeout(() => this.navigateBack(), 1500);
-    },
-    onError: () => {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Failed to update product',
-      });
-    },
-  }));
-
-  async updateProduct(product: Partial<Product>) {
+  async updateProduct(id: number, product: Partial<Product>) {
     if (!this.product()) return;
     if (!product) return;
 
-    this.mutation.mutate({
-      id: +this.productId!,
-      name: product.name!,
-      description: product.description!,
-      price: product.price!,
-      category: product.category!,
-      featured: product.featured!,
-    });
+    this.updateProductMutation.mutate({ id, data: product });
   }
 
   navigateBack(): void {

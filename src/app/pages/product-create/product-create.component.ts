@@ -12,6 +12,8 @@ import { ToastModule } from 'primeng/toast';
 import { ProductsService } from '../../services/products.service';
 import { Product } from '../../types/product';
 import { ProductFormComponent } from '../../components/product-form/product-form.component';
+import { ProductMutationService } from '../../services/product-mutation.service';
+import { ProductQueryService } from '../../services/product-query.service';
 
 @Component({
   selector: 'app-product-create',
@@ -21,22 +23,41 @@ import { ProductFormComponent } from '../../components/product-form/product-form
 })
 export class ProductCreateComponent {
   private productsService = inject(ProductsService);
+  private productMutationService = inject(ProductMutationService);
+  private productQueryService = inject(ProductQueryService);
   private queryClient = inject(QueryClient);
   private router = inject(Router);
   private messageService = inject(MessageService);
 
   categories = signal<string[]>([]);
 
-  readonly categoriesQuery = injectQuery(() => ({
-    queryKey: ['categories'],
-    queryFn: () => lastValueFrom(this.productsService.getCategories()),
-  }));
+  readonly categoriesQuery = this.productQueryService.getCategoriesQuery();
 
   constructor() {
     effect(() => {
       this.categories.set(this.categoriesQuery.data() || []);
     });
   }
+
+  readonly createProductMutation =
+    this.productMutationService.createProductMutation({
+      onSuccess: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Product created successfully',
+        });
+
+        setTimeout(() => this.navigateBack(), 1500);
+      },
+      onError: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to create product',
+        });
+      },
+    });
 
   mutation = injectMutation(() => ({
     mutationFn: (product: Omit<Product, 'id'>) =>
@@ -62,9 +83,8 @@ export class ProductCreateComponent {
   }));
 
   async createProduct(product: Omit<Product, 'id' | 'created_at'>) {
-    this.mutation.mutate({
+    this.createProductMutation.mutate({
       ...product,
-      created_at: new Date().toISOString(),
     });
   }
 
