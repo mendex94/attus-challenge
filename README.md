@@ -1,59 +1,45 @@
-# AttusChallenge
+# Aplicação de Gerenciamento de Produtos
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8.
+Uma aplicação completa de gerenciamento de produtos construída com Angular 19, implementando princípios de Clean Architecture e melhores práticas de frontend.
 
-## Development server
+## Funcionalidades
 
-To start a local development server, run:
+- **Gerenciamento de Produtos**: Operações CRUD completas (Criar, Ler, Atualizar, Excluir) para produtos
+- **Produtos em Destaque**: Produtos podem ser marcados como "destacados" e exibidos com proeminência
+- **Busca e Filtragem**: Produtos podem ser pesquisados por nome e filtrados por categoria
+- **Design Responsivo**: Interface se adapta a diferentes tamanhos de tela
+- **Dados em Tempo Real**: Utilizando TanStack Query para busca e cache eficiente de dados
 
-```bash
-ng serve
-```
+## Arquitetura
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Este projeto implementa Clean Architecture com separação clara de responsabilidades entre camadas. Cada camada é responsável por um aspecto específico da aplicação, facilitando manutenção e evolução:
 
-## Code scaffolding
+### Camadas
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. **Camada de Repositório**: Gerencia acesso a dados e operações HTTP
 
-```bash
-ng generate component component-name
-```
+   - `ProductRepository`: Comunica-se com a API backend
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+2. **Camada de Casos de Uso**: Contém a lógica de negócio
 
-```bash
-ng generate --help
-```
+   - `GetProductsUseCase`: Gerencia a recuperação e filtragem de produtos
+   - `CreateProductUseCase`: Gerencia a lógica de criação de produtos
+   - `UpdateProductUseCase`: Gerencia a lógica de atualização de produtos
 
-## Building
+3. **Camada de Serviço**: Fachadas para casos de uso, consumidas pelos componentes
 
-To build the project run:
+   - `ProductsService`: Serviço principal para operações de produtos
+   - `ProductQueryService`: Gerencia integração com TanStack Query para busca de dados
+   - `ProductMutationService`: Gerencia mutações para criar/atualizar produtos
 
-```bash
-ng build
-```
+4. **Camada de Apresentação**: Componentes e elementos de UI
+   - Pages: Componentes de página completa (`ProductsPage`, `ProductCreatePage`, etc.)
+   - Components: Elementos UI reutilizáveis (`ProductList`, `ProductForm`, etc.)
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Stack Tecnológica
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **Angular 19**: Framework principal com componentes standalone
+- **PrimeNG**: Biblioteca de componentes UI
+- **TanStack Query**: Para gerenciamento de estado e busca de dados
+- **JSON Server**: API mock para backend
+- **Tailwind CSS**: Para estilização
