@@ -3,11 +3,12 @@ import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { Product } from '../types/product';
 import { environment } from '../../environments/environment';
+import { IProductsService } from './products.interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductsService {
+export class ProductsService implements IProductsService {
   private API_URL = environment.API_URL;
 
   constructor(private http: HttpClient) {}
