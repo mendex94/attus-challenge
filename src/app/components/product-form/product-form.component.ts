@@ -57,10 +57,10 @@ export class ProductFormComponent {
 
   constructor() {
     this.form = this.fb.group({
-      name: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      price: [0, [Validators.required, Validators.min(0.01)]],
-      category: ['', [Validators.required]],
+      name: [undefined, [Validators.required]],
+      description: [undefined, [Validators.required]],
+      price: [undefined, [Validators.required, Validators.min(0.01)]],
+      category: [undefined, [Validators.required]],
       featured: [false],
     });
 

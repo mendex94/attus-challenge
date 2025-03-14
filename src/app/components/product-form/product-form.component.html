@@ -65,15 +65,16 @@
     <div class="field">
       <p-float-label variant="in">
         <p-select
-          id="category"
-          formControlName="category"
           [options]="categories"
-          placeholder="Select a Category"
+          formControlName="category"
+          id="category"
+          [checkmark]="true"
+          [showClear]="form.get('category')?.value !== ''"
           [class.ng-invalid]="
             form.get('category')?.invalid && form.get('category')?.touched
           "
         ></p-select>
-        <label for="category">Category</label>
+        <label for="category">Select a category...</label>
       </p-float-label>
       @if (form.get('category')?.invalid && form.get('category')?.touched) {
       <small class="text-red-500"> Category is required </small>

@@ -5,7 +5,7 @@
       formControlName="category"
       id="in_category"
       [checkmark]="true"
-      [showClear]="true"
+      [showClear]="form.controls.category.value !== ''"
       class="w-full md:w-56"
     />
     <label for="in_category">Select a category...</label>

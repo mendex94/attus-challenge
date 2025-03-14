@@ -15,8 +15,10 @@ export class ProductCategoryFilterComponent {
 
   readonly fb = inject(NonNullableFormBuilder);
 
-  form = this.fb.group({
-    category: '',
+  form = this.fb.group<{
+    category: string | undefined;
+  }>({
+    category: undefined,
   });
 
   constructor() {

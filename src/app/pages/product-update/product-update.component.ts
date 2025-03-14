@@ -34,12 +34,10 @@ export class ProductUpdateComponent {
 
   readonly productId = Number(this.route.snapshot.paramMap.get('id'));
 
-  // Initialize queries at component creation time
   readonly productQuery = this.productQueryService.getProductQuery(
     +this.productId!
   );
 
-  // Initialize categories query here, not in the effect
   readonly categoriesQuery = this.productQueryService.getCategoriesQuery();
 
   readonly updateProductMutation =
@@ -68,7 +66,6 @@ export class ProductUpdateComponent {
       this.product.set(this.productQuery.data());
     });
 
-    // Use the already initialized categoriesQuery
     effect(() => {
       this.categories.set(this.categoriesQuery.data() || []);
     });
