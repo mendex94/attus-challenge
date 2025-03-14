@@ -4,6 +4,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import {
   provideTanStackQuery,
   QueryClient,
+  withDevtools,
 } from '@tanstack/angular-query-experimental';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
@@ -16,7 +17,16 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withFetch()),
-    provideTanStackQuery(new QueryClient()),
+    provideTanStackQuery(
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            gcTime: 1000 * 60 * 60 * 24, // 24 hours
+          },
+        },
+      }),
+      withDevtools()
+    ),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
