@@ -1,0 +1,27 @@
+<p-card styleClass="h-full">
+  <ng-template #header>
+    <div class="bg-gray-100 p-4 flex items-center justify-between">
+      <h3 class="text-lg font-semibold text-slate-900">{{ product.name }}</h3>
+      @if (product.featured) {
+      <span class="bg-yellow-400 text-yellow-800 text-xs px-2 py-1 rounded"
+        >Featured</span
+      >
+      }
+    </div>
+  </ng-template>
+
+  <p>{{ product.description }}</p>
+  <p class="text-sm text-gray-500 mt-2">Category: {{ product.category }}</p>
+  <p class="font-bold text-lg mt-2">${{ product.price.toFixed(2) }}</p>
+
+  <ng-template #footer>
+    <div class="flex justify-between mt-4">
+      <p-button
+        type="button"
+        (onClick)="navigateToEdit()"
+        ariaLabel="Edit product"
+        >Edit</p-button
+      >
+    </div>
+  </ng-template>
+</p-card>
