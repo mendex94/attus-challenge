@@ -24,7 +24,7 @@ import { ButtonModule } from 'primeng/button';
     ProductFormComponent,
     ButtonModule,
   ],
-  providers: [MessageService, QueryClient],
+  providers: [MessageService],
   templateUrl: './product-update.component.html',
 })
 export class ProductUpdateComponent {

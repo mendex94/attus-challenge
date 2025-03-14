@@ -16,7 +16,7 @@ import { ProductFormComponent } from '../../components/product-form/product-form
 @Component({
   selector: 'app-product-create',
   imports: [CommonModule, ProductFormComponent, ToastModule],
-  providers: [MessageService, QueryClient],
+  providers: [MessageService],
   templateUrl: './product-create.component.html',
 })
 export class ProductCreateComponent {
