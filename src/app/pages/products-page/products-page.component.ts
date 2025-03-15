@@ -44,7 +44,10 @@ export class ProductsPageComponent {
     () => this.products()?.filter((product) => !product.featured) || []
   );
 
-  readonly productsQuery = this.productQueryService.getProductsQuery();
+  readonly productsQuery = this.productQueryService.getProductsQuery(
+    this.searchTerm,
+    this.selectedCategory
+  );
   readonly categoriesQuery = this.productQueryService.getCategoriesQuery();
 
   constructor() {

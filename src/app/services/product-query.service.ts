@@ -1,12 +1,10 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Signal } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { ProductsService } from './products.service';
 import {
   injectQuery,
   keepPreviousData,
-  QueryObserverResult,
 } from '@tanstack/angular-query-experimental';
-import { Product } from '../types/product';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +12,16 @@ import { Product } from '../types/product';
 export class ProductQueryService {
   private productsService = inject(ProductsService);
 
-  private productsQueryFactory = (name?: string, category?: string) =>
+  private productsQueryFactory = (
+    searchTerm: Signal<string | undefined>,
+    selectedCategory: Signal<string | undefined>
+  ) =>
     injectQuery(() => ({
-      queryKey: ['products', name, category],
+      queryKey: ['products', searchTerm(), selectedCategory()],
       queryFn: () =>
-        lastValueFrom(this.productsService.filterProducts(name, category)),
+        lastValueFrom(
+          this.productsService.filterProducts(searchTerm(), selectedCategory())
+        ),
       placeholderData: keepPreviousData,
       staleTime: 1000 * 60 * 1,
     }));
@@ -37,8 +40,11 @@ export class ProductQueryService {
     queryFn: () => lastValueFrom(this.productsService.getCategories()),
   }));
 
-  getProductsQuery(name?: string, category?: string) {
-    return this.productsQueryFactory(name, category);
+  getProductsQuery(
+    searchTerm: Signal<string | undefined>,
+    selectedCategory: Signal<string | undefined>
+  ) {
+    return this.productsQueryFactory(searchTerm, selectedCategory);
   }
 
   getProductQuery(id: number) {
